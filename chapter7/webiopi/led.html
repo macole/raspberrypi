@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>LEDを光らせる - Raspberry Piで遊ぼう</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="stylesheet" href="style.css" media="screen">
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="webiopi_proxy.js"></script>
+<script type="text/javascript">
+var port = 4;	//GPIO4
+var val = 0;	//初期値
+$(function() {
+	//初期設定: GPIO4をOUTモードにして、出力を0にする
+	set_gpio_function(port,"out",function(){
+		set_gpio_value(port,val);
+	});
+
+	//ボタンが押されたらGPIOの値をトグルする
+	$('#btn1').click( function() {
+		val = (val) ? 0 : 1;
+		set_gpio_value(port,val);
+		color = (val) ? "#f88888" : "#f8f8f8";
+		$(this).css('background',color);
+	});
+});
+</script>
+</head>
+<body>
+<div id="wrapper">
+
+<header>
+	<div class="header">
+		LEDを光らせる
+	</div>
+</header>
+
+<nav>
+	<div class="nav-zero">
+		<ul>
+			<li id="btn1" class="ledoff">GPIO<br />4</li>
+		</ul>
+	</div>
+	<div class="clear"></div>
+</nav>
+
+<div id="contents">
+	<section>
+		<div class="wmain">
+			ボタンを押す度に交互にLEDが点灯します。<br />
+		</div>
+	</section>
+</div>
+
+<footer>
+	<div id="footer">
+		Raspberry Piで遊ぼう<br />
+	</div>
+</footer>
+
+</div>
+</body>
+</html>

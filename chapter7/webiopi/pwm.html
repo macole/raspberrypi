@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>LEDの明るさを変える - Raspberry Piで遊ぼう</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="stylesheet" href="style.css" media="screen">
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="webiopi_proxy.js"></script>
+<script type="text/javascript">
+var port = 4;	//GPIO4
+var val = 0;	//初期値
+$(function() {
+	//初期設定: GPIO4をPWMモードにして、出力を0にする
+	set_gpio_function(port,"pwm",function(){
+		set_gpio_pwm(port,0);
+	});
+
+	//ボタンが押されたらPWMの値を変える
+	$('#btn1').click( function(){
+		set_gpio_pwm(port,0);
+		$('#slider').val(0);
+	});
+	$('#btn2').click( function(){
+		set_gpio_pwm(port,33);
+		$('#slider').val(33);
+	});
+	$('#btn3').click( function(){
+		set_gpio_pwm(port,66);
+		$('#slider').val(66);
+	});
+	$('#btn4').click( function(){
+		set_gpio_pwm(port,100);
+		$('#slider').val(100);
+	});
+
+	//スライダーが動いたらPWMの値を変える
+	$('#slider').change(function(){
+		set_gpio_pwm(port, $(this).val());
+	});
+
+});
+</script>
+</head>
+<body>
+<div id="wrapper">
+
+<header>
+	<div class="header">
+		LEDの明るさを変える
+	</div>
+</header>
+
+<nav>
+	<div class="nav-zero">
+		<ul>
+			<li id="btn1" class="ledoff">GPIO<br />4<br />0%</li>
+			<li id="btn2" class="ledoff">GPIO<br />4<br />33%</li>
+			<li id="btn3" class="ledoff">GPIO<br />4<br />66%</li>
+			<li id="btn4" class="ledoff">GPIO<br />4<br />100%</li>
+		</ul>
+		<form>
+		<input type="range" id="slider" min="1" max="100" value="0" style="width:100%">
+		</form>
+	</div>
+	<div class="clear"></div>
+</nav>
+
+<div id="contents">
+	<section>
+		<div class="wmain">
+			ボタンを押すとLEDの明るさが変わります。<br />
+			スライダーでも明るさを変更できます。
+		</div>
+	</section>
+</div>
+
+<footer>
+	<div id="footer">
+		Raspberry Piで遊ぼう<br />
+	</div>
+</footer>
+
+</div>
+</body>
+</html>

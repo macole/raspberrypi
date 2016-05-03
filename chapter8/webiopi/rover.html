@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>ラジコンカーを走らせる - Raspberry Piで遊ぼう</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="stylesheet" href="style.css" media="screen">
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="webiopi_proxy.js"></script>
+<script type="text/javascript">
+var GPIO_MOTORL1 = 4;
+var GPIO_MOTORL2 = 17;
+var GPIO_MOTORR1 = 27;
+var GPIO_MOTORR2 = 22;
+var GPIO_LIGHT   = 25;
+var light_val = 0;    //ライト初期値
+
+$(function() {
+	//初期設定: 使用するGPIOをOUTモードにして、値を0にする
+	set_gpio_function(GPIO_MOTORL1,"out", function(){
+		set_gpio_value(GPIO_MOTORL1, 0);
+	});
+	set_gpio_function(GPIO_MOTORL2,"out", function(){
+		set_gpio_value(GPIO_MOTORL2, 0);
+	});
+	set_gpio_function(GPIO_MOTORR1,"out", function(){
+		set_gpio_value(GPIO_MOTORR1, 0);
+	});
+	set_gpio_function(GPIO_MOTORR2,"out", function(){
+		set_gpio_value(GPIO_MOTORR2, 0);
+	});
+	set_gpio_function(GPIO_LIGHT,"out", function(){
+		set_gpio_value(GPIO_LIGHT, 0);
+	});
+
+	//ライト
+	$('#light').click( function() {
+		light_val = (light_val) ? 0 : 1;
+		set_gpio_value(GPIO_LIGHT, light_val);
+	});
+
+	//前進
+	$('#forward').click( function() {
+		set_gpio_value(GPIO_MOTORL1, 1);
+		set_gpio_value(GPIO_MOTORL2, 0);
+		set_gpio_value(GPIO_MOTORR1, 1);
+		set_gpio_value(GPIO_MOTORR2, 0);
+	});
+
+	//後退
+	$('#backward').click( function() {
+		set_gpio_value(GPIO_MOTORL1, 0);
+		set_gpio_value(GPIO_MOTORL2, 1);
+		set_gpio_value(GPIO_MOTORR1, 0);
+		set_gpio_value(GPIO_MOTORR2, 1);
+	});
+
+	//停止
+	$('#stop').click( function() {
+		set_gpio_value(GPIO_MOTORL1, 0);
+		set_gpio_value(GPIO_MOTORL2, 0);
+		set_gpio_value(GPIO_MOTORR1, 0);
+		set_gpio_value(GPIO_MOTORR2, 0);
+	});
+
+	//左
+	$('#left').click( function() {
+		set_gpio_value(GPIO_MOTORL1, 0);
+		set_gpio_value(GPIO_MOTORL2, 1);
+		set_gpio_value(GPIO_MOTORR1, 1);
+		set_gpio_value(GPIO_MOTORR2, 0);
+	});
+
+	//右
+	$('#right').click( function() {
+		set_gpio_value(GPIO_MOTORL1, 1);
+		set_gpio_value(GPIO_MOTORL2, 0);
+		set_gpio_value(GPIO_MOTORR1, 0);
+		set_gpio_value(GPIO_MOTORR2, 1);
+	});
+});
+</script>
+</head>
+<body>
+<div id="wrapper">
+
+<header>
+	<div class="header">
+		ラジコンカーを走らせる
+	</div>
+</header>
+
+<nav>
+	<div class="nav-zero">
+		<ul>
+			<li class="wakunone">
+			<li id="forward" class="ledoff">↑<br />↑<br />前進</li>
+			<li class="wakunone"></li>
+			<li id="light" class="ledoff">◎<br />ライト<br />ON/OFF</li>
+		</ul>
+		<ul>
+			<li id="left" class="ledoff"><br />←←左<br /><br /></li>
+			<li id="stop" class="ledoff"><br />停止<br /><br /></li>
+			<li id="right" class="ledoff"><br />右→→<br /><br /></li>
+		</ul>
+		<ul>
+			<li class="wakunone"></li>
+			<li id="backward" class="ledoff">後退<br />↓<br />↓</li>
+		</ul>
+	</div>
+	<div class="clear"></div>
+</nav>
+
+<div id="contents">
+	<section>
+		<div class="wmain">
+			Raspberry Piラジコンカーが、押したボタンのとおりに走ります。<br />
+		</div>
+	</section>
+</div>
+
+<footer>
+	<div id="footer">
+		Raspberry Piで遊ぼう<br />
+	</div>
+</footer>
+
+</div>
+</body>
+</html>
